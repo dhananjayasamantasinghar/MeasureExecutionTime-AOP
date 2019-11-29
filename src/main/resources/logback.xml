@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<appender name="kibanaLogger-console" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- <filter class="com.logger.LogFilter" /> -->
+		<encoder
+			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<provider
+					class="net.logstash.logback.composite.loggingevent.ArgumentsJsonProvider" />
+				<timestamp />
+				<pattern>
+					<pattern>
+						{
+						"logger":"%logger",
+						"level": "%level",
+						"message":"%replace(%message){'null',''}"
+						}
+					</pattern>
+				</pattern>
+			</providers>
+		</encoder>
+	</appender>
+ 
+	<appender name="kibanaLogger-file" class="ch.qos.logback.core.FileAppender">
+		<filter class="com.logger.LogFilter" />
+		<file>app.log</file>
+		<encoder
+			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<provider
+					class="net.logstash.logback.composite.loggingevent.ArgumentsJsonProvider" />
+				<timestamp />
+				<pattern>
+					<pattern>
+						{
+						"logger":"%logger",
+						"level": "%level",
+						"message":"%replace(%message){'null',''}"
+						}
+					</pattern>
+				</pattern>
+			</providers>
+		</encoder>
+	</appender>
+	<root level="INFO">
+		<appender-ref ref="kibanaLogger-console" />
+		<appender-ref ref="kibanaLogger-file" />
+	</root>
+</Configuration>
